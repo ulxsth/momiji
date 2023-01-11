@@ -1,4 +1,5 @@
 import discord
+import chess
 
 intents = discord.Intents.all()
 intents.message_content = True
@@ -14,7 +15,14 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if "もみじ" in message.content:
-        await message.channel.send('💕')
+    content = message.content
+    channel = message.channel
+    
+    if "もみじ" in content:
+        await channel.send('💕')
+        
+    elif content == '/chess':
+        board_state_text = chess.get_board_state_text(chess.START_BOARD_STATE)
+        await channel.send(board_state_text)
 
 client.run(token)
