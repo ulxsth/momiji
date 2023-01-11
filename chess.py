@@ -32,8 +32,9 @@ def get_board_state_text(board_state):
     for line in board_state:
         for peace in line:
             if not peace == '':
-                peace_mark = PEACE_MARKS[peace]
-                board_state_text += peace_mark
+                # peace_mark = PEACE_MARKS[peace]
+                # board_state_text += peace_mark
+                board_state_text += peace
             else:
                 board_state_text += ' '
             board_state_text += ' '
