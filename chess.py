@@ -26,6 +26,14 @@ PEACE_MARKS = {
 
 
 def create_board_state_text(board_state):
+    """board_stateから表示用のテキストを生成する
+
+    Args:
+        board_state (list): ボード状態を示す二次元配列
+
+    Returns:
+        str: ボード状態を示すテキスト
+    """
     board_state_text = '```'
     board_state_text += '    a b c d e f g h\n'
     board_state_text += '    - - - - - - - -\n'
