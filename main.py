@@ -42,7 +42,7 @@ async def on_message(message):
             await channel.send("```>> その手は打てないよ！```")
             return
 
-        board.move(board, before_pos_txt, after_pos_txt)
+        board.move(before_pos_txt, after_pos_txt)
         board_state_text = board.get_board_state_text()
         await channel.send(board_state_text)
 
