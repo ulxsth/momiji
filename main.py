@@ -25,18 +25,25 @@ async def on_message(message):
 
     # chess
     elif content == '/chess':
-        global is_playing_chess, board
-        board = chess.Board()
-        board_state_text = board.get_board_state_text()
+        global board
+        board = chess.Board() # ボードを生成
         await channel.send('☕')
-        await channel.send(board_state_text)
-        
+        await channel.send(board.get_board_state_text())
+    
     if board == None:
         return
     
     # /move <before_pos> <after_pos>
     if content.startswith('/move'):
-        before_pos_txt, after_pos_txt = content.split()[1:3]
+        args = content.split()[1:]
+        if len(args) != 2:
+            await channel.send("""
+                                ```つかいかた：/move <動かすコマのあるマス> <移動先のマス>
+                                例：/move b7 b6 ... b7のコマをb6に移動させるよ```
+                                """.replace("    ", ""))
+            return
+        before_pos_txt, after_pos_txt = args
+        
         # validate
         if not board.validate(before_pos_txt, after_pos_txt):
             await channel.send("```>> その手は打てないよ！```")

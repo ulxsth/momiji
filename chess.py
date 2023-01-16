@@ -87,10 +87,18 @@ class Board():
     
     
     def validate(self, before_pos_txt, after_pos_txt) -> bool:
+        # 不正な引数（座標を指定していない）
+        if len(before_pos_txt) != 2 or len(after_pos_txt) != 2:
+            return False
+        
         before_pos, after_pos = txt_to_pos(before_pos_txt), txt_to_pos(after_pos_txt)
         before_peace = self.get_peace_by_pos(before_pos)
+        
+        # before_pos に駒がない
         if before_peace == '':
             return False
+        
+        
         return True
 
 
