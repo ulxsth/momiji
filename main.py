@@ -38,7 +38,7 @@ async def on_message(message):
     if content.startswith('/move'):
         before_pos_txt, after_pos_txt = content.split()[1:3]
         # validate
-        if not chess.validate(before_pos_txt, after_pos_txt):
+        if not board.validate(before_pos_txt, after_pos_txt):
             await channel.send("```>> その手は打てないよ！```")
             return
 

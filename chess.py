@@ -39,10 +39,6 @@ def pos_to_index(pos):
     return list(map(lambda x: x-1, pos))
 
 
-def validate(before_pos_txt, after_pos_txt) -> bool:
-    return True
-
-
 class Board():
     def __init__(self):
         self.board_state = START_BOARD_STATE
@@ -88,6 +84,14 @@ class Board():
 
         board_state_text += '```'
         return board_state_text
+    
+    
+    def validate(self, before_pos_txt, after_pos_txt) -> bool:
+        before_pos, after_pos = txt_to_pos(before_pos_txt), txt_to_pos(after_pos_txt)
+        before_peace = self.get_peace_by_pos(before_pos)
+        if before_peace == '':
+            return False
+        return True
 
 
     def move(self, before_pos_txt, after_pos_txt):
