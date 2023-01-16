@@ -8,7 +8,7 @@ token: str
 with open("token.txt", "r") as f:
     token = f.read()
 
-is_playing_chess = False
+board = None
 
 @client.event
 async def on_ready():
@@ -25,14 +25,13 @@ async def on_message(message):
 
     # chess
     elif content == '/chess':
-        global is_playing_chess
-        is_playing_chess = True
-        chess.board_state = chess.START_BOARD_STATE
-        board_state_text = chess.create_board_state_text()
+        global is_playing_chess, board
+        board = chess.Board()
+        board_state_text = board.get_board_state_text()
         await channel.send('☕')
         await channel.send(board_state_text)
         
-    if not is_playing_chess:
+    if board == None:
         return
     
     # /move <before_pos> <after_pos>
@@ -43,8 +42,8 @@ async def on_message(message):
             await channel.send("```>> その手は打てないよ！```")
             return
 
-        chess.move(before_pos_txt, after_pos_txt)
-        board_state_text = chess.create_board_state_text()
+        board.move(board, before_pos_txt, after_pos_txt)
+        board_state_text = board.get_board_state_text()
         await channel.send(board_state_text)
 
 
