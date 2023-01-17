@@ -25,23 +25,40 @@ PEACE_MARKS = {
 }
 
 
-def notation_to_pos(notation):
+def notation_to_line(notation):
     return ord(notation) - ord('a') + 1
 
 
+def line_to_notation(line):
+    return chr(ord('a') + line - 1)
+
+
 def txt_to_pos(pos_txt):
-    line = notation_to_pos(pos_txt[0])
-    column = int(pos_txt[1])
-    return column, line
+    column = notation_to_line(pos_txt[0])
+    line = int(pos_txt[1])
+    return line, column
+
+
+def pos_to_txt(pos):
+    column = line_to_notation(pos[0])
+    line = str(pos[1])
+    return column + line
 
 
 def pos_to_index(pos):
     return list(map(lambda x: x-1, pos))
 
 
+def calc_pos_diff(before_pos, after_pos):
+    return list([after_pos[0] - before_pos[0], after_pos[1] - before_pos[1]])
+
+
 class Board():
     def __init__(self):
         self.board_state = START_BOARD_STATE
+        
+    def broadcast(self, str):
+        print(f"[CHESS] {str}")
     
     def get_peace_by_pos(self, pos):
         index = pos_to_index(pos)
@@ -93,13 +110,22 @@ class Board():
         
         before_pos, after_pos = txt_to_pos(before_pos_txt), txt_to_pos(after_pos_txt)
         before_peace = self.get_peace_by_pos(before_pos)
+        self.broadcast(f"before: {pos_to_txt(before_pos)}({before_peace}) -> {after_pos_txt}")
         
         # before_pos に駒がない
         if before_peace == '':
             return False
         
+        pos_diff = calc_pos_diff(before_pos, after_pos)
+        if before_peace == 'p':
+            print("")
+            if pos_diff == [1, 0]:
+                return True
+        elif before_peace == 'P':
+            if pos_diff == [-1, 0]:
+                return True
         
-        return True
+        return False
 
 
     def move(self, before_pos_txt, after_pos_txt):

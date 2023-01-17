@@ -19,6 +19,8 @@ async def on_ready():
 async def on_message(message):
     content = message.content
     channel = message.channel
+    sender = message.author.name
+    print(f"{sender}: {content}")
 
     if "もみじ" in content:
         await channel.send('💕')
@@ -29,6 +31,7 @@ async def on_message(message):
         board = chess.Board() # ボードを生成
         await channel.send('☕')
         await channel.send(board.get_board_state_text())
+        print("[CHESS] board created successful.")
     
     if board == None:
         return
