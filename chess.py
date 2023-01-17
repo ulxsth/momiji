@@ -53,12 +53,25 @@ def calc_pos_diff(before_pos, after_pos):
     return list([after_pos[0] - before_pos[0], after_pos[1] - before_pos[1]])
 
 
+def is_white(peace):
+    return peace.isupper()
+
+
+def is_black(peace):
+    return peace.islower()
+
+
 class Board():
     def __init__(self):
         self.board_state = START_BOARD_STATE
         
     def broadcast(self, str):
         print(f"[CHESS] {str}")
+    
+    
+    def is_exist(self, pos):
+        return self.get_peace_by_pos(pos) != ' '
+        
     
     def get_peace_by_pos(self, pos):
         index = pos_to_index(pos)
@@ -110,24 +123,29 @@ class Board():
         
         before_pos, after_pos = txt_to_pos(before_pos_txt), txt_to_pos(after_pos_txt)
         before_peace, after_peace = self.get_peace_by_pos(before_pos), self.get_peace_by_pos(after_pos)
-        self.broadcast(f"before: {pos_to_txt(before_pos)}({before_peace}) -> {after_pos_txt}")
+        self.broadcast(f"before: {before_pos_txt}({before_peace}) -> {after_pos_txt}")
         
         # before_pos に駒がない
         if before_peace == '':
             return False
         
         pos_diff = calc_pos_diff(before_pos, after_pos)
+        
+        # *ポーン
+        # 黒
         if before_peace == 'p':
-            print("")
-            if pos_diff == [1, 0]:
+            if pos_diff == [1, 0]: # 縦1マス
                 return True
-            elif pos_diff == [2, 0] and before_pos[0] == 2:
+            elif pos_diff == [2, 0] and before_pos[0] == 2: # 縦2マス（初動のみ）
                 return True
-            
+            elif pos_diff in [[1, 1], [1, -1]] and self.is_exist(after_pos) and is_white(after_peace): # 斜め前（相手コマがあるときのみ）
+                return True
+        
+        # 白    
         elif before_peace == 'P':
-            if pos_diff == [-1, 0]:
+            if pos_diff == [-1, 0]: # 縦1マス
                 return True
-            elif pos_diff == [-2, 0] and before_pos[0] == 7:
+            elif pos_diff == [-2, 0] and before_pos[0] == 7: # 縦2マス（初動のみ）
                 return True
         
         return False
@@ -139,6 +157,3 @@ class Board():
         peace = self.get_peace_by_pos(before_pos)
         self.set_peace_by_pos(peace, after_pos)
         self.set_peace_by_pos(' ', before_pos)
-        
-
-
