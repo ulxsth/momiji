@@ -157,7 +157,7 @@ class Board():
                 return True
             
             # 斜め前（相手コマがあるときのみ）
-            elif pos_diff in [[1, 1], [1, -1]] and self.is_exist(after_pos) and is_white(after_peace):
+            elif pos_diff in [[-1, 1], [-1, -1]] and self.is_exist(after_pos) and is_black(after_peace):
                 return True
         
         return False
