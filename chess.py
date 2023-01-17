@@ -134,18 +134,30 @@ class Board():
         # *ポーン
         # 黒
         if before_peace == 'p':
-            if pos_diff == [1, 0]: # 縦1マス
+            # 縦1マス
+            if pos_diff == [1, 0]:
                 return True
-            elif pos_diff == [2, 0] and before_pos[0] == 2: # 縦2マス（初動のみ）
+            
+            # 縦2マス（初動のみ）
+            elif pos_diff == [2, 0] and before_pos[0] == 2:
                 return True
-            elif pos_diff in [[1, 1], [1, -1]] and self.is_exist(after_pos) and is_white(after_peace): # 斜め前（相手コマがあるときのみ）
+            
+            # 斜め前（相手コマがあるときのみ）
+            elif pos_diff in [[1, 1], [1, -1]] and self.is_exist(after_pos) and is_white(after_peace):
                 return True
         
         # 白    
         elif before_peace == 'P':
-            if pos_diff == [-1, 0]: # 縦1マス
+            # 縦1マス
+            if pos_diff == [-1, 0]:
                 return True
-            elif pos_diff == [-2, 0] and before_pos[0] == 7: # 縦2マス（初動のみ）
+            
+            # 縦2マス（初動のみ）
+            elif pos_diff == [-2, 0] and before_pos[0] == 7:
+                return True
+            
+            # 斜め前（相手コマがあるときのみ）
+            elif pos_diff in [[1, 1], [1, -1]] and self.is_exist(after_pos) and is_white(after_peace):
                 return True
         
         return False
