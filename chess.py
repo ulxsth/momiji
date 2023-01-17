@@ -135,7 +135,7 @@ class Board():
         # 黒
         if before_peace == 'p':
             # 縦1マス
-            if pos_diff == [1, 0]:
+            if pos_diff == [1, 0] and not self.is_exist(after_pos):
                 return True
             
             # 縦2マス（初動のみ）
