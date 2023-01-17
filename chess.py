@@ -109,7 +109,7 @@ class Board():
             return False
         
         before_pos, after_pos = txt_to_pos(before_pos_txt), txt_to_pos(after_pos_txt)
-        before_peace = self.get_peace_by_pos(before_pos)
+        before_peace, after_peace = self.get_peace_by_pos(before_pos), self.get_peace_by_pos(after_pos)
         self.broadcast(f"before: {pos_to_txt(before_pos)}({before_peace}) -> {after_pos_txt}")
         
         # before_pos に駒がない
@@ -121,8 +121,13 @@ class Board():
             print("")
             if pos_diff == [1, 0]:
                 return True
+            elif pos_diff == [2, 0] and before_pos[0] == 2:
+                return True
+            
         elif before_peace == 'P':
             if pos_diff == [-1, 0]:
+                return True
+            elif pos_diff == [-2, 0] and before_pos[0] == 7:
                 return True
         
         return False
