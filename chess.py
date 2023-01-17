@@ -9,21 +9,6 @@ START_BOARD_STATE = [
     ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
 ]
 
-PEACE_MARKS = {
-    'k': '♔',
-    'K': '♚',
-    'q': '♕',
-    'Q': '♛',
-    'r': '♖',
-    'R': '♜',
-    'b': '♗',
-    'B': '♝',
-    'n': '♘',
-    'N': '♞',
-    'p': '♙',
-    'P': '♟'
-}
-
 
 def notation_to_line(notation):
     return ord(notation) - ord('a') + 1
