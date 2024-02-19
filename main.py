@@ -1,28 +1,23 @@
+
+from dotenv import load_dotenv
+from discord.ext import commands
+
+import os
 import discord
-import chess
 
-intents = discord.Intents.all()
-intents.message_content = True
-client = discord.Client(intents=intents)
-token: str
-with open("token.txt", "r") as f:
-    token = f.read()
+load_dotenv()
 
-board = None
+class Bot(commands.bot):
+    def __init__(self):
+        super.__init__(command_prefix="/", intents=discord.Intents.all())
+        self.load_extension_directories = ['cogs']
 
-@client.event
-async def on_ready():
-    print('Momiji ONLINE')
+    @commands.command()
+    async def hello(ctx):
+        await ctx.send(f"Hello {ctx.author.display_name}")
 
+    async def setup(bot):
+        bot.add_command(hello)
 
-@client.event
-async def on_message(message):
-    content = message.content
-    channel = message.channel
-    sender = message.author.name
-    print(f"{sender}: {content}")
-
-    if "もみじ" in content:
-        await channel.send('💕')
-
-client.run(token)
+bot = Bot()
+bot.run(os.getenv('BOT_TOKEN'))
