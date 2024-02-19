@@ -4,7 +4,7 @@ class TestCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.cog.listener()
+    @commands.Cog.listener()
     async def on_message(self, message):
         content = message.content
         channel = message.channel
@@ -14,5 +14,5 @@ class TestCog(commands.Cog):
         if "もみじ" in content:
             await channel.send('💕')
 
-    def setup(bot):
-        bot.add_cog(TestCog(bot))
+async def setup(bot):
+    await bot.add_cog(TestCog(bot))
