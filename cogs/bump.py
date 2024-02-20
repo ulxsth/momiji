@@ -1,8 +1,15 @@
 import asyncio
+import datetime
 from discord.ext import commands
+from zoneinfo import ZoneInfo
 
-BUMP_COOLDOWN_MINUTE = 0.5
+jst = ZoneInfo("Asia/Tokyo")
 
+BUMP_COOLDOWN_MINUTE = 120
+DISSOKU_COOLDOWN_MINUTE = 60
+
+bump_message = "Time to /bump !"
+dissoku_message = "Time to /dissoku up !"
 
 class BumpCog(commands.Cog):
     def __init__(self, bot):
@@ -14,14 +21,18 @@ class BumpCog(commands.Cog):
             return
 
         if message.content == '/bump':
-            await message.channel.send("Bump Detected 👀")
+            next_bump_time = datetime.datetime.now(jst) + datetime.timedelta(minutes=BUMP_COOLDOWN_MINUTE)
+            await message.channel.send(f"次の /bump は {next_bump_time.strftime('%H:%M')} です ☕")
+
             await asyncio.sleep(BUMP_COOLDOWN_MINUTE * 60)
-            await message.channel.send("Time to bump!")
+            await message.channel.send("Time to /bump !")
 
         if message.content == '/dissoku up':
-            await message.channel.send("Dissoku up detected 👀")
-            await asyncio.sleep(BUMP_COOLDOWN_MINUTE * 60)
-            await message.channel.send("Time to bump!")
+            next_bump_time = datetime.datetime.now(jst) + datetime.timedelta(minutes=DISSOKU_COOLDOWN_MINUTE)
+            await message.channel.send(f"次の /dissoku up は {next_bump_time.strftime('%H:%M')} です ☕")
+
+            await asyncio.sleep(DISSOKU_COOLDOWN_MINUTE * 60)
+            await message.channel.send("Time to /dissoku up !")
 
 
 async def setup(bot):
