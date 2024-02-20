@@ -14,6 +14,12 @@ class BumpCog(commands.Cog):
             return
 
         if message.content == '/bump':
+            await message.channel.send("Bump Detected 👀")
+            await asyncio.sleep(BUMP_COOLDOWN_MINUTE * 60)
+            await message.channel.send("Time to bump!")
+
+        if message.content == '/dissoku up':
+            await message.channel.send("Dissoku up detected 👀")
             await asyncio.sleep(BUMP_COOLDOWN_MINUTE * 60)
             await message.channel.send("Time to bump!")
 
