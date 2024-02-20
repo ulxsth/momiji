@@ -1,5 +1,5 @@
 import asyncio
-import datetime
+from datetime import datetime, timedelta  # 修正: datetime と timedelta を直接インポート
 from discord.ext import commands
 from zoneinfo import ZoneInfo
 
@@ -11,6 +11,7 @@ DISSOKU_COOLDOWN_MINUTE = 60
 bump_message = "Time to /bump !"
 dissoku_message = "Time to /dissoku up !"
 
+
 class BumpCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -21,18 +22,22 @@ class BumpCog(commands.Cog):
             return
 
         if message.content == '/bump':
-            next_bump_time = datetime.datetime.now(jst) + datetime.timedelta(minutes=BUMP_COOLDOWN_MINUTE)
+            # 修正: datetime.datetime から datetime へ
+            next_bump_time = datetime.now(
+                jst) + timedelta(minutes=BUMP_COOLDOWN_MINUTE)
             await message.channel.send(f"次の /bump は {next_bump_time.strftime('%H:%M')} です ☕")
 
             await asyncio.sleep(BUMP_COOLDOWN_MINUTE * 60)
-            await message.channel.send("Time to /bump !")
+            await message.channel.send(bump_message)  # 変数を使用
 
         if message.content == '/dissoku up':
-            next_bump_time = datetime.datetime.now(jst) + datetime.timedelta(minutes=DISSOKU_COOLDOWN_MINUTE)
+            # 修正: datetime.datetime から datetime へ
+            next_bump_time = datetime.now(
+                jst) + timedelta(minutes=DISSOKU_COOLDOWN_MINUTE)
             await message.channel.send(f"次の /dissoku up は {next_bump_time.strftime('%H:%M')} です ☕")
 
             await asyncio.sleep(DISSOKU_COOLDOWN_MINUTE * 60)
-            await message.channel.send("Time to /dissoku up !")
+            await message.channel.send(dissoku_message)  # 変数を使用
 
 
 async def setup(bot):
